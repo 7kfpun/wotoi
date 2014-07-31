@@ -57,8 +57,8 @@ module.exports = function(grunt) {
       combine: {
         files: {
           'dist/build.min.css': [
-            'src/**/bootplus.min.css',
-            'src/**/*.css'
+            'src/css/bootstrap.min.css',
+            'src/css/landing-page.css',
           ]
         }
       }
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      files: ['Gruntfile.js', 'src/js/**/*.js', 'test/**/*.js'],
+      files: ['Gruntfile.js'],  //, 'src/js/**/*.js', 'test/**/*.js'],
       options: {
         // options here to override JSHint defaults
         globals: {
