@@ -5,3 +5,11 @@ south==1.0
 # Debug
 django-debug-toolbar==1.2.1
 django-extensions==1.3.8
+
+# REST
+djangorestframework==2.3.14
+markdown==2.4.1
+django-filter==0.7
+
+# Others
+pycountry==1.8
