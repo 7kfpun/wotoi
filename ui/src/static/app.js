@@ -6,8 +6,22 @@ angular.module('app', [
 
   // Top level modules only
   'main',
+  'login',
   'admin'
 ])
+
+.config(['$httpProvider', function($httpProvider){
+
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+
+}])
+
+.service('authState', function () {
+  return {
+    user: undefined
+  };
+})
 
 // configure routes
 .config(function($routeProvider) {
