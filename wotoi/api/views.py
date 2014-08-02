@@ -4,16 +4,18 @@ from django.contrib.auth import login, logout
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authentication import (
-    BasicAuthentication,
-    SessionAuthentication,
-)
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import viewsets
 
-from ..core.models import CustomUser, Job
+from ..core.models import CustomUser, Job, Language
 from .authenticators import QuietBasicAuthentication
-from .permissions import IsOwner, IsStaffOrTargetUser
-from .serializers import JobSerializer, UserSerializer
+from .permissions import IsOwner  # , IsStaffOrTargetUser
+from .serializers import (
+    JobSerializer,
+    LanguageSerializer,
+    UserDetailSerializer,
+    UserSerializer,
+)
 
 
 class AuthView(APIView):
@@ -28,18 +30,6 @@ class AuthView(APIView):
         return Response()
 
 
-class ExampleView(APIView):
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, format=None):
-        content = {
-            'user': unicode(request.user),
-            'auth': unicode(request.auth),
-        }
-        return Response(content)
-
-
 class UserList(generics.ListCreateAPIView):
     model = CustomUser
     serializer_class = UserSerializer
@@ -48,22 +38,29 @@ class UserList(generics.ListCreateAPIView):
 
 class UserDetail(generics.RetrieveAPIView):
     model = CustomUser
-    serializer_class = UserSerializer
+    serializer_class = UserDetailSerializer
     lookup_field = 'username'
-    permission_classes = (IsStaffOrTargetUser,)
+    # permission_classes = (IsStaffOrTargetUser,)
+    permission_classes = (IsAuthenticated,)
 
 
-class UserPostList(generics.ListAPIView):
+class UserJobList(generics.ListAPIView):
     model = Job
     serializer_class = JobSerializer
     permission_classes = (IsOwner,)
 
     def get_queryset(self):
-        queryset = super(UserPostList, self).get_queryset()
+        queryset = super(UserJobList, self).get_queryset()
         return queryset.filter(user__username=self.kwargs.get('username'))
 
 
-class PostList(generics.ListAPIView):
+class JobList(generics.ListAPIView):
     model = Job
     serializer_class = JobSerializer
-    permission_classes = (IsStaffOrTargetUser,)
+    # permission_classes = (IsStaffOrTargetUser,)
+    permission_classes = (IsAuthenticated,)
+
+
+class LanguageList(viewsets.ModelViewSet):
+    serializer_class = LanguageSerializer
+    queryset = Language.objects.filter(alpha2__isnull=False)

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -8,6 +10,12 @@ class Skill(models.Model):
 
     # endorsements = models.ManyToManyField(User)
 
+    def clean(self):
+        self.name = self.name.lower()
+
+    def __unicode__(self):
+        return self.name
+
 
 class Language(models.Model):
 
@@ -16,12 +24,18 @@ class Language(models.Model):
 
     # endorsements = models.ManyToManyField(User)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Experience(models.Model):
 
     name = models.CharField(max_length=20)
 
     # endorsements = models.ManyToManyField(User)
+
+    def __unicode__(self):
+        return self.name
 
 
 # class TranslateLanguage(models.Model):
@@ -46,7 +60,7 @@ class CustomUser(AbstractUser):
 
     is_approved = models.BooleanField(default=False)
 
-    user_type = models.CharField(max_length=20, choices=USER_TYPE)
+    user_type = models.CharField(max_length=20, choices=USER_TYPE, blank=True)
 
     # profile_picture = models.ImageField()
     description = models.TextField(blank=True)
@@ -60,9 +74,9 @@ class CustomUser(AbstractUser):
     # address = models.TextField()
 
     # Seeker
-    skills = models.ForeignKey(Skill, null=True)
-    languages = models.ForeignKey(Language, null=True)
-    experiences = models.ManyToManyField(Experience, null=True)
+    skills = models.ManyToManyField(Skill, blank=True, null=True)
+    languages = models.ManyToManyField(Language, blank=True, null=True)
+    experiences = models.ManyToManyField(Experience, blank=True, null=True)
 
     # followers = models.ManyToManyField(
     # 'self', related_name='followees', symmetrical=False)

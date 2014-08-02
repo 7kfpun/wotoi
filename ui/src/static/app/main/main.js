@@ -1,13 +1,18 @@
-angular.module('main', []).controller('mainController', function($scope, api, authState) {
+angular.module('main', []).controller('mainController', function($scope, api, authState, $log) {
 
   $scope.title = 'main';
 
-  // create a message to display in our view
-  $scope.message = 'Everyone come and see how good I look!';
+  $scope.api = api;
 
-  $scope.list = function(){
-    api.jobs.list(function(data){
+  $scope.list = function() {
+    api.jobs.list(function(data) {
+      $log.debug('jobs', data);
       $scope.jobs = data;
+    });
+
+    api.users.list(function(data) {
+      $log.debug('geniuses:', data);
+      $scope.geniuses = data;
     });
   };
   $scope.list();

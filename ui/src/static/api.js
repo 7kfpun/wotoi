@@ -46,6 +46,12 @@ angular.module('app').factory('api', function($resource){
       create: {method: 'POST'},
       detail: {method: 'GET', url: '/api/posts/:id'},
       delete: {method: 'DELETE', url: '/api/posts/:id'}
-    })
+    }),
+    config: {
+      languages: $resource('/api/v1/config/languages\\/', {}, {
+        list:   {method: 'GET', isArray: true},
+        create: {method: 'POST'}
+      })
+    }
   };
 })

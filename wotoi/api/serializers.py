@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework import serializers
-from ..core.models import CustomUser, Job
+from ..core.models import CustomUser, Job, Language
 
 
 # class CustomUserSerializer(serializers.Serializer):
@@ -42,8 +42,23 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'password', 'first_name',
-                  'last_name', 'email')
+        fields = ('id', 'username', 'password', 'first_name', 'last_name',
+                  'user_type')
+        read_only_fields = ('id',)
+        write_only_fields = ('password',)
+
+
+class UserDetailSerializer(UserSerializer):
+
+    experiences = serializers.RelatedField(many=True)
+    skills = serializers.RelatedField(many=True)
+    languages = serializers.RelatedField(many=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'password', 'first_name', 'last_name',
+                  'user_type', 'email', 'description', 'url', 'phone',
+                  'experiences', 'skills', 'languages')
         read_only_fields = ('id',)
         write_only_fields = ('password',)
 
@@ -63,3 +78,11 @@ class JobSerializer(serializers.HyperlinkedModelSerializer):
         model = Job
         fields = ('pk', 'title', 'category', 'description', 'price', 'unit',
                   'until_date')
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Language
+        fields = ('id', 'name', 'alpha2')
+        read_only_fields = ('id',)

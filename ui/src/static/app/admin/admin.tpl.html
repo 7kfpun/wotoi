@@ -5,11 +5,10 @@
   <div class="container">
 
     <div class="row">
-      <div>
+      <div ng-show="user.user_type == 'EMPLOYER' || user.is_staff || config.debug ">
         <!-- for company -->
         <div class="clearfix"></div>
-        <h2 class="section-heading">(Company) Admin</h2>
-        {{ user_detail }}
+        <h2 class="section-heading">Admin</h2>
 
         <tabset>
           <tab heading="Company description">
@@ -21,8 +20,22 @@
                 <input type="file" id="exampleInputFile">
               </div>
               <div class="form-group">
-                <label for="exampleTextArea">Description</label>
-                <textarea type="password" class="form-control" id="exampleTextArea" placeholder="Description"></textarea>
+                <label for="employerUrl">Url</label>
+                <input class="form-control" id="employerUrl" 
+                  placeholder="Url"
+                  ng-model="user.url">
+              </div>
+              <div class="form-group">
+                <label for="employerPhone">Phone</label>
+                <input class="form-control" id="employerPhone" 
+                  placeholder="Phone"
+                  ng-model="user.phone">
+              </div>
+              <div class="form-group">
+                <label for="companyDescription">Description</label>
+                <textarea class="form-control" id="companyDescription" 
+                  placeholder="Description" 
+                  ng-model="user.description"></textarea>
               </div>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -78,22 +91,29 @@
         
             <form role="form" class="col-lg-8">
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label for="employerEmail">Email address</label>
+                <input type="email" class="form-control" id="employerEmail" 
+                  placeholder="Email"
+                  ng-model="user.email">
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="employerPassword">Password</label>
+                <input type="password" class="form-control" id="employerPassword"
+                  placeholder="Password"
+                  ng-model="user.password">
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="employerConfirmPassword">Comfirm Password</label>
+                <input type="password" class="form-control" id="employerConfirmPassword"
+                  placeholder="Password"
+                  ng-model="user.confirm_password">
               </div>
               <!--<div class="checkbox">-->
                 <!--<label>-->
                   <!--<input type="checkbox"> Delete my account-->
                   <!--</label>-->
                 <!--</div>-->
+              <button type="submit" class="btn btn-default">Submit</button>
             </form>
 
           </tab>
@@ -101,12 +121,10 @@
 
       </div>
 
-      <hr>
-
       <!-- For job seekers -->
-      <div>
+      <div ng-show="user.user_type == 'SEEKER' || user.is_staff || config.debug ">
         <div class="clearfix"></div>
-        <h2 class="section-heading">(Job seekers) Admin</h2>
+        <h2 class="section-heading">Admin</h2>
 
         <tabset>
           <tab heading="Profile">
@@ -118,17 +136,20 @@
                 <input type="file" id="exampleInputFile">
               </div>
               <div class="form-group">
-                <label for="exampleTextArea">Description</label>
-                <textarea class="form-control" id="exampleTextArea" placeholder="Description"></textarea>
+                <label for="seekerDescription">Description</label>
+                <textarea class="form-control" id="seekerDescription"
+                  placeholder="Description"
+                  ng-model="user.description"></textarea>
               </div>
               <div class="form-group">
                 <label for="exampleTextArea">Experience</label>
                 <input class="form-control" id="exampleinput" placeholder="Experience"></input>
               </div>
               <div class="form-group">
-                <label for="exampleinput">Languages</label>
+                <label for="seekerLanguages">Languages</label>
                 <p class="help-block"><a href="#"><span class="glyphicon glyphicon-remove"></span></a> Eng</p>
-                <input class="form-control" id="exampleinput" placeholder="Languages"></input>
+                <input class="form-control" id="seekerLanguages" placeholder="Languages" ng-model="selected"
+                  typeahead="language.name for language in languages | filter:{name:$viewValue} | limitTo:8"></input>
               </div>
               <div class="form-group">
                 <label for="exampleinput">Skills</label>
@@ -156,6 +177,11 @@
               <hr />
               <div class="checkbox">
                 <label>
+                  <input type="checkbox"> Hide my profile
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
                   <input type="checkbox"> Delete my account <span class="label label-danger">Danger</span>
                 </label>
               </div>
@@ -167,22 +193,29 @@
             
             <form role="form" class="col-lg-8">
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label for="seekerEmail">Email address</label>
+                <input type="email" class="form-control" id="seekerEmail" 
+                  placeholder="Email"
+                  ng-model="user.email">
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="seekerPassword">Password</label>
+                <input type="password" class="form-control" id="seekerPassword" 
+                  placeholder="Password"
+                  ng-model="user.password">
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="seekerConfirmPassword">Password</label>
+                <input type="password" class="form-control" id="seekerConfirmPassword" 
+                  placeholder="Password"
+                  ng-model="user.confirm_password">
               </div>
               <!--<div class="checkbox">-->
                 <!--<label>-->
                   <!--<input type="checkbox"> Delete my account-->
                   <!--</label>-->
                 <!--</div>-->
+              <button type="submit" class="btn btn-default">Submit</button>
             </form>
 
           </tab>

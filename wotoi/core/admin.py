@@ -5,7 +5,8 @@ from .models import CustomUser, Language, Job
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('user_type', 'username', 'email', 'is_staff', 'is_active',)
+    list_display = ('user_type', 'username', 'email', 'is_staff', 'is_active',
+                    'description', 'url', 'phone')
     list_filter = ('user_type',)
 
 

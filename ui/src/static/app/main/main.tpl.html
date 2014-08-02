@@ -9,7 +9,6 @@
       <div class="col-lg-12">
         <div class="intro-message">
           <h1>Wotoi</h1>
-          <h3>{{ message }}</h3>
           <h3>find a right genius without difficulty</h3>
           <h3>get your work done as you wish</h3>
           <h3>find a right person as fast as possible</h3>
@@ -209,24 +208,16 @@
 
       <table class="table">
         <tbody>
-          <tr class="active">
-            <td width="30%"><a href="genius.html">Chan Ming Yat</a></td>
+          <tr class="active" ng-repeat="genius in geniuses">
+            <td width="30%">
+              <a href="#genius">{{ genius.last_name || 'LASTNAME' }} {{ genius.first_name || 'FIRST_NAME' }}</a>
+            </td>
             <td>中 - Eng, Eng - 中</td>
             <td>Translate, Copywrite</td>
-          </tr>
-          <tr>
-            <td width="30%"><a href="genius.html">Chan Ming Yee</a></td>
-            <td>日 - 中</td>
-            <td>Copyright</td>
-          </tr>
-          <tr class="success">
-            <td width="30%"><a href="genius.html">Chan Ming Sam</a></td>
-            <td>日 - 中</td>
-            <td>Copyright</td>
+            <td>Legal, Computer, Agriculture</td>
           </tr>
         </tbody>
       </table>
-      {{ users }}
 
     </div>
 
@@ -265,11 +256,8 @@
     </div>
 
   </div>
-
   <!-- /.container -->
-</div>
-<!-- /.container -->
 
-    </div>
-    <!-- /.content-section-a -->
+</div>
+<!-- /.content-section-a -->
 
